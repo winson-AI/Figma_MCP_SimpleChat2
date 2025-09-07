@@ -240,7 +240,7 @@ fun MessagesSection() {
                         modifier = Modifier
                             .size(16.dp)
                             .align(Alignment.Center),
-                        tint = Color(0xFF72777A)
+                        tint = Color.Unspecified
                     )
                 }
 
@@ -343,7 +343,7 @@ fun MessagesSection() {
                     modifier = Modifier
                         .size(16.dp)
                         .align(Alignment.Center),
-                    tint = Color(0xFF72777A)
+                    tint = Color.Unspecified
                 )
             }
 
@@ -430,7 +430,7 @@ fun MessagesSection() {
                             painter = painterResource(Res.drawable.ic_dumbbell),
                             contentDescription = "Dumbbell",
                             modifier = Modifier.size(20.dp),
-                            tint = Color(0xFF72777A)
+                            tint = Color.Unspecified
                         )
                     }
 
@@ -452,7 +452,7 @@ fun MessagesSection() {
                             painter = painterResource(Res.drawable.ic_spa),
                             contentDescription = "SPA",
                             modifier = Modifier.size(20.dp),
-                            tint = Color(0xFF72777A)
+                            tint = Color.Unspecified
                         )
                     }
 
@@ -474,7 +474,7 @@ fun MessagesSection() {
                             painter = painterResource(Res.drawable.ic_pool),
                             contentDescription = "Pool",
                             modifier = Modifier.size(20.dp),
-                            tint = Color(0xFF72777A)
+                            tint = Color.Unspecified
                         )
                     }
                 }
@@ -540,7 +540,7 @@ fun SendMessageInput() {
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(Color.White, RoundedCornerShape(50))
+                    .background(Color(0xFF303437), RoundedCornerShape(50))
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_send_arrow),
@@ -548,7 +548,7 @@ fun SendMessageInput() {
                     modifier = Modifier
                         .size(24.dp)
                         .align(Alignment.Center),
-                    tint = Color(0xFF72777A)
+                    tint = Color(0xFFF2F4F5)
                 )
             }
         }

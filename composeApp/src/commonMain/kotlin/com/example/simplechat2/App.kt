@@ -4,15 +4,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.runtime.getValue   // ← 提供 var xxx by remember{...}
+import androidx.compose.runtime.setValue   // ← 提供对委托值的写操作
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import simplechat2.composeapp.generated.resources.*
@@ -40,6 +50,7 @@ fun App() {
         // Home Indicator
         HomeIndicator()
     }
+    
 }
 
 @Composable
@@ -484,15 +495,17 @@ fun MessagesSection() {
 }
 
 @Composable
-fun SendMessageInput() {
-    // Send a Message Prompt - Main container
+fun SendMessageInput(
+    modifier: Modifier = Modifier      // 外部如果想留边距直接传
+) {
+    var text by remember { mutableStateOf("") }
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(108.dp)
             .background(Color.White)
     ) {
-        // Send Message Input - Inner container
         Row(
             modifier = Modifier
                 .padding(horizontal = 24.dp, vertical = 32.dp)
@@ -500,13 +513,14 @@ fun SendMessageInput() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Input Field Container
+            /* ------ 输入框区域 ------ */
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .height(44.dp)
+                    .height(44.dp),
+                contentAlignment = Alignment.CenterStart
             ) {
-                // Input field with border
+                // 边框 + 背景
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -518,14 +532,29 @@ fun SendMessageInput() {
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(
-                            text = "Type a message...",
-                            color = Color(0xFF72777A),
-                            fontSize = 16.sp
+                        BasicTextField(
+                            value = text,
+                            onValueChange = { text = it },
+                            modifier = Modifier.weight(1f),
+                            textStyle = TextStyle(
+                                color = Color(0xFF72777A),
+                                fontSize = 16.sp
+                            ),
+                            cursorBrush = SolidColor(Color(0xFF72777A)),
+                            decorationBox = { innerTextField ->
+                                if (text.isEmpty()) {
+                                    Text(
+                                        text = "Type a message...",
+                                        color = Color(0xFF72777A),
+                                        fontSize = 16.sp
+                                    )
+                                }
+                                innerTextField()
+                            }
                         )
+
                         Icon(
                             painter = painterResource(Res.drawable.ic_microphone),
                             contentDescription = "Microphone",
@@ -536,18 +565,18 @@ fun SendMessageInput() {
                 }
             }
 
-            // Send Button - Categories Icon Button
+            /* ------ 发送按钮 ------ */
             Box(
                 modifier = Modifier
                     .size(44.dp)
                     .background(Color(0xFF303437), RoundedCornerShape(50))
+                    .clickable { /* 发送逻辑 */ },
+                contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.ic_send_arrow),
                     contentDescription = "Send",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .align(Alignment.Center),
+                    modifier = Modifier.size(24.dp),
                     tint = Color(0xFFF2F4F5)
                 )
             }
